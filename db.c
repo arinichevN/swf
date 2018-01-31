@@ -33,7 +33,7 @@ int getProg_callback(void *d, int argc, char **argv, char **azColName) {
             c++;
         } else {
 #ifdef MODE_DEBUG
-            fprintf(stderr, "%s(): unknown column:%s\n", __func__,DB_COLUMN_STR);
+            fprintf(stderr, "%s(): unknown column:%s\n", __func__,DB_COLUMN_NAME);
 #endif
             c++;
         }
@@ -155,6 +155,7 @@ int addProgById(int prog_id, ProgList *list, SensorFTSList *sensor_list, sqlite3
     }
     item->sensor.peer.fd = &item->sock_fd;
     item->save = 1;
+    memset(&item->value,0, sizeof item->value);
     if (!checkProg(item)) {
         freeSocketFd(&item->sock_fd);
         freeMutex(&item->value_mutex);
