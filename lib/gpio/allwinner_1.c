@@ -132,7 +132,7 @@ int gpioSetup() {
     int pagesize = sysconf(_SC_PAGESIZE);
     int fd;
     if ((fd = open("/dev/mem", O_RDWR | O_SYNC | O_CLOEXEC)) < 0) {
-        fprintf(stderr, "%s(): ", __FUNCTION__);
+        fprintf(stderr, "%s(): ", __func__);
         perror("open()");
         return 0;
     }
@@ -141,7 +141,7 @@ int gpioSetup() {
     gpio_buf = mmap(NULL, (0x800 + pagesize - 1) & ~(pagesize - 1), PROT_WRITE | PROT_READ, MAP_SHARED, fd, addr);
     close(fd);
     if (gpio_buf == MAP_FAILED) {
-        fprintf(stderr, "%s(): ", __FUNCTION__);
+        fprintf(stderr, "%s(): ", __func__);
         perror("mmap()");
         return 0;
     }

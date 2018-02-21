@@ -1,6 +1,7 @@
 #ifndef LIBPAS_DEBUG_H
 #define LIBPAS_DEBUG_H
 
+#define F __func__
 #ifdef MODE_DEBUG
 #define NEED_DEBUG 1
 #else

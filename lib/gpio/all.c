@@ -1,4 +1,5 @@
- void pinWrite(int pin, int value) {
+
+void pinWrite(int pin, int value) {
     ;
 }
 

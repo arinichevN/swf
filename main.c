@@ -61,23 +61,17 @@ void initApp() {
 }
 
 int initData() {
-    if (!initI1List(&i1l, ACP_BUFFER_MAX_SIZE)) {
-        return 0;
-    }
     if (!config_getPeerList(&peer_list, NULL, db_public_path)) {
-        FREE_LIST(&i1l);
         return 0;
     }
     if (!config_getSensorFTSList(&sensor_list, &peer_list, db_data_path)) {
-        FREE_LIST(&peer_list);
-        FREE_LIST(&i1l);
+        freePeerList(&peer_list);
         return 0;
     }
     if (!loadActiveProg(&prog_list, &sensor_list, db_data_path)) {
         freeProgList(&prog_list);
         FREE_LIST(&sensor_list);
-        FREE_LIST(&peer_list);
-        FREE_LIST(&i1l);
+        freePeerList(&peer_list);
         return 0;
     }
     return 1;
@@ -87,7 +81,7 @@ int initData() {
 void serverRun(int *state, int init_state) {
     SERVER_HEADER
     SERVER_APP_ACTIONS
-
+    DEF_SERVER_I1LIST
     if (ACP_CMD_IS(ACP_CMD_PROG_STOP)) {
         PARSE_I1LIST
         for (int i = 0; i < i1l.length; i++) {
@@ -256,8 +250,7 @@ void freeData() {
     stopAllProgThreads(&prog_list);
     freeProgList(&prog_list);
     FREE_LIST(&sensor_list);
-    FREE_LIST(&peer_list);
-    FREE_LIST(&i1l);
+    freePeerList(&peer_list);
     putsdo("freeData: done\n");
 }
 
@@ -294,7 +287,7 @@ int main(int argc, char** argv) {
     int data_initialized = 0;
     while (1) {
 #ifdef MODE_DEBUG
-        printf("main(): %s %d\n", getAppState(app_state), data_initialized);
+        printf("%s(): %s %d\n", F,getAppState(app_state), data_initialized);
 #endif
         switch (app_state) {
             case APP_INIT:

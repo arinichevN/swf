@@ -8,8 +8,11 @@
 
 #include "app.h"
 
-#define DB_COLUMN_STR azColName[i]
-#define DB_COLUMN_IS(V) strcmp(V, DB_COLUMN_STR) == 0
+#define DB_COLUMN_NAME azColName[i]
+#define DB_COLUMN_VALUE argv[i]
+#define DB_COLUMN_IS(V) strcmp(V, DB_COLUMN_NAME) == 0
+#define DB_FOREACH_COLUMN for (int i = 0; i < argc; i++) 
+
 extern int db_open(const char *path, sqlite3 **db);
 
 extern int db_openR(const char *path, sqlite3 **db);

@@ -48,13 +48,21 @@ static int getPeerList_callback(void *data, int argc, char **argv, char **azColN
     int c = 0;
     for (int i = 0; i < argc; i++) {
         if (DB_COLUMN_IS("id")) {
-            memcpy(PDLi.id, argv[i], NAME_SIZE);
+            strcpyma(&PDLi.id, DB_COLUMN_VALUE);
+            if(PDLi.id==NULL){
+                peer_data->list->length++;
+                return EXIT_FAILURE;
+            }
             c++;
         } else if (DB_COLUMN_IS("port")) {
             PDLi.port = atoi(argv[i]);
             c++;
         } else if (DB_COLUMN_IS("ip_addr")) {
-            memcpy(PDLi.addr_str, argv[i], LINE_SIZE);
+            strcpyma(&PDLi.addr_str, DB_COLUMN_VALUE);
+            if(PDLi.addr_str==NULL){
+                peer_data->list->length++;
+                return EXIT_FAILURE;
+            }
             c++;
         } else {
             putsde("unknown column\n");

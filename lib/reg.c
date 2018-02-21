@@ -56,7 +56,7 @@ static int getRegSecureList_callback(void *data, int argc, char **argv, char **a
             c++;
         } else {
 #ifdef MODE_DEBUG
-            fprintf(stderr, "%s(): unknown column\n", __FUNCTION__);
+            fprintf(stderr, "%s(): unknown column\n", __func__);
 #endif
         }
     }
@@ -65,7 +65,7 @@ static int getRegSecureList_callback(void *data, int argc, char **argv, char **a
     if (c != N) {
         list->length++;
 #ifdef MODE_DEBUG
-        fprintf(stderr, "%s(): required %d columns but %d found\n", __FUNCTION__, N, c);
+        fprintf(stderr, "%s(): required %d columns but %d found\n", __func__, N, c);
 #endif
         return EXIT_FAILURE;
     }
@@ -80,7 +80,7 @@ int reg_getSecureFDB(RegSecure *item, int id, sqlite3 *dbl, const char *db_path)
     item->id=id;
     if (dbl != NULL && db_path != NULL) {
 #ifdef MODE_DEBUG
-        fprintf(stderr, "%s(): dbl xor db_path expected\n", __FUNCTION__);
+        fprintf(stderr, "%s(): dbl xor db_path expected\n", __func__);
 #endif
         return 0;
     }
@@ -88,7 +88,7 @@ int reg_getSecureFDB(RegSecure *item, int id, sqlite3 *dbl, const char *db_path)
     if (db_path != NULL) {
         if (!db_openR(db_path, &db)) {
 #ifdef MODE_DEBUG
-            fprintf(stderr, "%s(): failed to open database\n", __FUNCTION__);
+            fprintf(stderr, "%s(): failed to open database\n", __func__);
 #endif
             return 0;
         }
@@ -101,7 +101,7 @@ int reg_getSecureFDB(RegSecure *item, int id, sqlite3 *dbl, const char *db_path)
     snprintf(q, sizeof q, "SELECT id, timeout_sec, heater_duty_cycle, cooler_duty_cycle FROM secure where id=%d", id);
     if (!db_exec(db, q, getRegSecureList_callback, &data)) {
 #ifdef MODE_DEBUG
-        fprintf(stderr, "%s(): failed\n", __FUNCTION__);
+        fprintf(stderr, "%s(): failed\n", __func__);
 #endif
         if (db_path != NULL) {
             sqlite3_close(db);
@@ -113,7 +113,7 @@ int reg_getSecureFDB(RegSecure *item, int id, sqlite3 *dbl, const char *db_path)
     }
     if (data.length != 1) {
 #ifdef MODE_DEBUG
-        fprintf(stderr, "%s(): secure with id=%d not found\n", __FUNCTION__, id);
+        fprintf(stderr, "%s(): secure with id=%d not found\n", __func__, id);
 #endif
         return 0;
     }
