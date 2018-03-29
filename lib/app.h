@@ -27,6 +27,16 @@
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 
+#define GOOD_FLOAT 1.0
+#define BAD_FLOAT 0.0
+#define GOOD_INT 1
+#define BAD_INT 0
+
+#define POSITIVE_FLOAT GOOD_FLOAT
+#define NEGATIVE_FLOAT BAD_FLOAT
+#define POSITIVE_INT GOOD_INT
+#define NEGATIVE_INT BAD_INT
+
 #define DEF_THREAD pthread_t thread;char thread_cmd=0;void *threadFunction(void *arg);
 #define THREAD_CREATE createThread(&thread,&threadFunction,&thread_cmd)
 #define THREAD_STOP thread_cmd = 1;pthread_join(thread, NULL);
@@ -76,6 +86,11 @@
 #define DEF_SERVER_S2LIST S2 s2_arr[request.data_rows_count];S2List s2l;s2l.item=s2_arr;s2l.max_length=request.data_rows_count;s2l.length=0;
 #define DEF_SERVER_I1S1LIST I1S1 i1s1_arr[request.data_rows_count];I1S1List i1s1l;i1s1l.item=i1s1_arr;i1s1l.max_length=request.data_rows_count;i1s1l.length=0;
 
+#define SERVER_PARSE_I1LIST acp_requestDataToI1List(&request, &i1l);if (i1l.length <= 0) {return;}
+#define SERVER_PARSE_I1F1LIST acp_requestDataToI1F1List(&request, &i1f1l);if (i1f1l.length <= 0) {return;}
+#define SERVER_PARSE_I2LIST acp_requestDataToI2List(&request, &i2l);if (i2l.length <= 0) {return;}
+#define SERVER_PARSE_I1S1LIST acp_requestDataToI1S1List(&request, &i1s1l);if (i1s1l.length <= 0) {return;}
+
 #define SEND_STR(V) acp_responseSendStr(V, ACP_MIDDLE_PACK, response, &peer_client);
 #define SEND_STR_L(V) acp_responseSendStr(V, ACP_LAST_PACK, response, &peer_client);
 
@@ -118,12 +133,22 @@
     }\
     return NULL;
 
-#define FORL for (i = 0; i < list->length; i++) 
+#define FORLi for (size_t i = 0; i < list->length; i++) 
+#define FORL FORLi
+#define FORMLi for (size_t i = 0; i < list->max_length; i++) 
 #define FORLISTP(V, I) for (size_t I = 0; I < (V)->length; I++) 
+#define FORLISTN(V, I) for (size_t I = 0; I < (V).length; I++) 
 #define FORLIST(I) for (size_t I = 0; I < list->length; I++) 
+#define FORLLj  for (size_t j = i + 1; j < list->length; j++) 
+#define FORLISTPL(V, I, J)  for (size_t J = i + 1; J < (V)->length; J++) 
 #define LIi list->item[i]
 #define LIj list->item[j]
+#define LIll list->item[list->length]
 #define Lil list->length-1
+#define LL list->length
+#define LML list->max_length
+#define LIiei(v) LIi.v=atoi(v)
+#define LIief(v) LIi.v=atof(v)
 
 #define FUN_LOCK(T) int lock ## T (T *item) {if (item == NULL) {return 0;} if (pthread_mutex_lock(&(item->mutex.self)) != 0) {return 0;}return 1;}
 #define FUN_TRYLOCK(T) int tryLock ## T (T  *item) {if (item == NULL) {return 0;} if (pthread_mutex_trylock(&(item->mutex.self)) != 0) {return 0;}return 1;}

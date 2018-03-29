@@ -9,12 +9,15 @@
 
 #include "app.h"
 #include "cmd.h"
+#include "prog.h"
 #include "../dstructure_auto.h"
 #include "../app.h"
 #include "../timef.h"
 #include "../util.h"
 #include "../udp.h"
 #include "../crc.h"
+#include "../lcorrection.h"
+#include "../lreduction.h"
 
 #define ACP_RETRY_NUM 12
 
@@ -274,9 +277,15 @@ extern int acp_readSensorFTS(SensorFTS *s) ;
 
 extern int acp_getFTS(FTS *output, Peer *peer, int remote_id);
 
+extern int acp_getProgEnabled(Peer *peer, int remote_id);
+
+extern int acp_peerItemSendCmd(Peer *peer, int remote_id, char *cmd);
+
 extern void acp_pingPeer(Peer *item) ;
 
 extern void acp_pingPeerList(PeerList *list, struct timespec interval, struct timespec now) ;
+
+extern int acp_peerListIsActive(PeerList *list);
 
 extern int acp_responseSendCurTime(ACPResponse *item, Peer *peer) ;
 
@@ -299,6 +308,10 @@ extern void acp_printI2(I2List *list) ;
 extern void acp_printI3(I3List *list) ;
 
 extern void acp_sendPeerListInfo(PeerList *pl, ACPResponse *response, Peer *peer);
+
+extern void acp_sendLCorrectionListInfo(LCorrectionList *list, ACPResponse *response, Peer *peer);
+
+extern void acp_sendLReductionListInfo(LReductionList *list, ACPResponse *response, Peer *peer);
 
 DEC_FUN_ACP_REQUEST_DATA_TO(I1List)
 

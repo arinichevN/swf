@@ -204,8 +204,6 @@ void printData(ACPResponse *response) {
     SEND_STR(q)
     snprintf(q, sizeof q, "db_data_path: %s\n", db_data_path);
     SEND_STR(q)
-    snprintf(q, sizeof q, "db_public_path: %s\n", db_public_path);
-    SEND_STR(q)
     snprintf(q, sizeof q, "app_state: %s\n", getAppState(app_state));
     SEND_STR(q)
     snprintf(q, sizeof q, "PID: %d\n", getpid());

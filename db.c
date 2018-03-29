@@ -33,7 +33,7 @@ int getProg_callback(void *d, int argc, char **argv, char **azColName) {
             c++;
         } else {
 #ifdef MODE_DEBUG
-            fprintf(stderr, "%s(): unknown column:%s\n", __func__,DB_COLUMN_NAME);
+            fprintf(stderr, "%s(): unknown column:%s\n", F,DB_COLUMN_NAME);
 #endif
             c++;
         }
@@ -41,7 +41,7 @@ int getProg_callback(void *d, int argc, char **argv, char **azColName) {
 #define N 6
     if (c != N) {
 #ifdef MODE_DEBUG
-        fprintf(stderr, "%s(): required %d columns but %d found\n", __func__, N, c);
+        fprintf(stderr, "%s(): required %d columns but %d found\n", F, N, c);
 #endif
         return EXIT_FAILURE;
     }
