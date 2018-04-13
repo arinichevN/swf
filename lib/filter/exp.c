@@ -44,6 +44,7 @@ int fexp_initList(FilterEXPList *list, const char *config_path) {
             break;
         }
         LIi.f = 0;
+        LIi.vp=0;
         if (TSVnullreturned(r)) {
             break;
         }

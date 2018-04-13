@@ -23,6 +23,7 @@ int fma_init(FilterMA *item, int id, int length) {
 #endif
         return 0;
     }
+    memset(item->buf, 0, length*(sizeof *item->buf));
     item->id = id;
     item->length = length;
     item->i = 0;
@@ -67,6 +68,7 @@ int fma_initList(FilterMAList *list, const char *config_path) {
 #endif
             break;
         }
+        memset(LIi.buf, 0, LIi.length*(sizeof *LIi.buf));
         LL++;
     }
     TSVclear(r);

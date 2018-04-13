@@ -1,2 +1,2 @@
-port	cd_sec	cd_nsec	db_data_path
-49182	5	0	/etc/controller/swf/data.db
+port	db_data_path
+49182	/etc/controller/swf/data.db

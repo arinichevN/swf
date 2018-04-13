@@ -113,7 +113,6 @@ int addProg(Prog *item, ProgList *list) {
 }
 
 int addProgById(int prog_id, ProgList *list, SensorFTSList *sensor_list, sqlite3 *db_data, const char *db_data_path) {
-    extern struct timespec cycle_duration;
     Prog *rprog = getProgById(prog_id, list);
     if (rprog != NULL) {
 #ifdef MODE_DEBUG
@@ -130,7 +129,6 @@ int addProgById(int prog_id, ProgList *list, SensorFTSList *sensor_list, sqlite3
     memset(item, 0, sizeof *item);
     item->id = prog_id;
     item->next = NULL;
-    item->cycle_duration = cycle_duration;
     if (!initMutex(&item->mutex)) {
         free(item);
         return 0;

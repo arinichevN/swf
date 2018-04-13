@@ -10,7 +10,6 @@ int sock_port = -1;
 int sock_fd = -1;
 
 Peer peer_client = {.fd = &sock_fd, .addr_size = sizeof peer_client.addr};
-struct timespec cycle_duration = {0, 0};
 Mutex progl_mutex = MUTEX_INITIALIZER;
 
 I1List i1l = LIST_INITIALIZER;
@@ -22,26 +21,22 @@ ProgList prog_list = LLIST_INITIALIZER;
 #include "util.c"
 #include "db.c"
 
-int readSettings(TSVresult* r, const char *data_path, int *port, struct timespec *cd, char **db_data_path) {
+int readSettings(TSVresult* r, const char *data_path, int *port, char **db_data_path) {
     if (!TSVinit(r, data_path)) {
         return 0;
     }
     int _port = TSVgetis(r, 0, "port");
-    int _cd_sec = TSVgetis(r, 0, "cd_sec");
-    int _cd_nsec = TSVgetis(r, 0, "cd_nsec");
     char *_db_data_path = TSVgetvalues(r, 0, "db_data_path");
     if (TSVnullreturned(r)) {
         return 0;
     }
     *port = _port;
-    cd->tv_sec = _cd_sec;
-    cd->tv_nsec = _cd_nsec;
     *db_data_path = _db_data_path;
     return 1;
 }
 
 void initApp() {
-    if (!readSettings(&config_tsv, CONFIG_FILE, &sock_port, &cycle_duration, &db_data_path)) {
+    if (!readSettings(&config_tsv, CONFIG_FILE, &sock_port, &db_data_path)) {
         exit_nicely_e("initApp: failed to read settings\n");
     }
     if (!initMutex(&progl_mutex)) {

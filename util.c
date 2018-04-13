@@ -198,10 +198,6 @@ void printData(ACPResponse *response) {
     SEND_STR(q)
     snprintf(q, sizeof q, "port: %d\n", sock_port);
     SEND_STR(q)
-    snprintf(q, sizeof q, "cycle_duration sec: %ld\n", cycle_duration.tv_sec);
-    SEND_STR(q)
-    snprintf(q, sizeof q, "cycle_duration nsec: %ld\n", cycle_duration.tv_nsec);
-    SEND_STR(q)
     snprintf(q, sizeof q, "db_data_path: %s\n", db_data_path);
     SEND_STR(q)
     snprintf(q, sizeof q, "app_state: %s\n", getAppState(app_state));
